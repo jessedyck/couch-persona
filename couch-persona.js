@@ -195,7 +195,7 @@ app.configure(function() {
 
 app.post('/persona/sign-in', function(req, res) {
   async.waterfall([
-    verifyAssert.bind(this, req.body.assert, req.headers.origin),
+    verifyAssert.bind(this, req.body.assertion, req.headers.origin),
     ensureUser,
     ensureDatabase,
     ensureUserSecurity,
@@ -207,6 +207,7 @@ app.post('/persona/sign-in', function(req, res) {
       sendJSON(res, 200, {
         ok: true,
         db: url.format(host) + 'db/' + userDoc.db,
+        email: userDoc.email,
         name: userDoc.name
       }, {'Set-Cookie': userDoc.authToken});
     }
